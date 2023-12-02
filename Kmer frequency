@@ -1,0 +1,26 @@
+f= open(input(), 'r')
+lines=f.readlines()
+k=int(input())
+if k%2==1 and k>=1 and k<=127:
+    seq_dict = {}
+    seq_name = []
+    for line in lines:
+        if line[0] == '>':
+            seq_name = line[1:].strip()
+            seq_dict[seq_name] = ''
+        else:
+            if seq_name:
+                seq_dict[seq_name] = seq_dict[seq_name] + line.strip()
+    for i in seq_dict:
+        print(i)
+        record={}
+        for j in range(len(seq_dict[i])-k+1):
+            if seq_dict[i][j:j+k] not in record:
+                record[seq_dict[i][j:j+k]]=1
+                print(seq_dict[i][j:j+k])
+            else:
+                record[seq_dict[i][j:j+k]]+=1
+        sorted_record= sorted(record.items(), key=lambda x: x[1], reverse=True)
+        list_seq_name=i.split()
+        print('{}: {}: {}'.format(list_seq_name[0],sorted_record[0][0],sorted_record[0][1]))
+f.close()
